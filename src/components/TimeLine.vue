@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { DateTime } from "luxon";
 import { Post, thisWeek, thisMonth, today } from "../posts";
 
@@ -12,11 +12,24 @@ function selectPeriod(period: Period) {
   selectedPeriod.value = period;
 }
 
-const posts = [today, thisWeek, thisMonth].map((post) => {
-  return {
-    ...post,
-    created: DateTime.fromISO(post.created)
-  };
+const posts = computed(() => {
+  return [today, thisWeek, thisMonth]
+    .map((post) => {
+      return {
+        ...post,
+        created: DateTime.fromISO(post.created),
+      };
+    })
+    .filter((post) => {
+      if (selectedPeriod.value === "Today") {
+        return post.created >= DateTime.now().minus({ day: 1 });
+      }
+      if (selectedPeriod.value === "This Week") {
+        return post.created >= DateTime.now().minus({ week: 1 });
+      }
+      console.log("post: " + post);
+      return post;
+    });
 });
 </script>
 
