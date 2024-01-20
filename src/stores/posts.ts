@@ -48,6 +48,10 @@ export const usePosts = defineStore("posts", {
       this.ids = ids;
       this.all = all;
     },
+
+    createPost (post: TimelinePost){
+      console.log(post)
+    }
   },
 
   // similar to computed properties under the hood
