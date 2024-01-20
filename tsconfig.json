@@ -22,14 +22,16 @@
 
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS",
-      "moduleResolution": "Node"
+      "moduleResolution": "Node",
+
     },
     "ts-node": {
       "esm": true,
