@@ -1,21 +1,26 @@
 const express = require("express");
-import bodyParser from "body-parser";
+const bodyParser = require("body-parser");
 
 const cors = require("cors");
-import { today, thisWeek, thisMonth } from "../posts";
+import { today, thisWeek, thisMonth, Post } from "../posts";
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+const allPosts = [today, thisWeek, thisMonth];
 //@ts-ignore
 app.get("/posts", (req, res) => {
-  res.json([today, thisWeek, thisMonth]);
+  res.json(allPosts);
 });
 
 //@ts-ignore
-app.post("/posts", (req, res) => {
-  res.json([today, thisWeek, thisMonth]);
+app.post<{}, {}, Post>("/posts", (req, res) => {
+  const post = { ...req.body, id: (Math.random() * 100000).toFixed() };
+  console.log("from server: id of new post is: " + post.id);
+  allPosts.push(post);
+  res.json(post);
 });
 
 app.listen(8000, () => {
