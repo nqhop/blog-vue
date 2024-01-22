@@ -68,7 +68,7 @@ async function handleClick() {
     html: html.value,
   };
   await posts.createPost(newPost);
-  // router.push("/")
+  router.push("/")
 }
 </script>
 <template>
