@@ -3,11 +3,10 @@ const cors = require("cors");
 import { today, thisMonth, thisWeek } from "../posts";
 
 const app = express();
-
 app.use(cors());
 
 //@ts-ignore
-app.post("/posts", (req, res) => {
+app.get("/posts", (req, res) => {
     res.json([today, thisWeek, thisMonth]);
 });
 

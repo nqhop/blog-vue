@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { DateTime } from "luxon";
-import { Post, today, thisMonth, thisWeek, TimelinePost } from "../posts";
+import { Post, TimelinePost } from "../posts";
 import { Period } from "../constants";
 
 interface PostsState {
@@ -11,18 +11,28 @@ interface PostsState {
 
 export const usePosts = defineStore("posts", {
     state: (): PostsState => ({
-        ids: [today.id, thisWeek.id, thisMonth.id],
-        all: new Map([
-            [today.id, today],
-            [thisWeek.id, thisWeek],
-            [thisMonth.id, thisMonth],
-        ]),
+        ids: [],
+        all: new Map(),
         selectedPeriod: "Today",
     }),
 
     actions: {
         setSelectedPeriod(period: Period) {
             this.selectedPeriod = period;
+        },
+        async fetPosts() {
+            const res = await fetch("http://localhost:8000/posts");
+            const data = (await res.json()) as Post[];
+
+            let ids: string[] = [];
+            let all = new Map<string, Post>();
+
+            for (const post of data) {
+                ids.push(post.id);
+                all.set(post.id, post);
+            }
+            this.ids = ids;
+            this.all = all;
         },
     },
     getters: {
