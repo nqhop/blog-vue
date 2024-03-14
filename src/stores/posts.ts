@@ -9,6 +9,11 @@ interface PostsState {
     selectedPeriod: Period;
 }
 
+// function for assume is delay when getting data from server
+function delayFunction() {
+    return new Promise((tem) => setTimeout(tem, 2500));
+}
+
 export const usePosts = defineStore("posts", {
     state: (): PostsState => ({
         ids: [],
@@ -21,6 +26,7 @@ export const usePosts = defineStore("posts", {
             this.selectedPeriod = period;
         },
         async fetPosts() {
+            await delayFunction();
             const res = await fetch("http://localhost:8000/posts");
             const data = (await res.json()) as Post[];
 
