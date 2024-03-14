@@ -14,8 +14,13 @@ type Period = (typeof periods)[number];
 const selectedPeriod = ref<Period>(periods[0]);
 
 const posts = computed<TimelinePost[]>(() => {
-    return [today, thisWeek, thisMonth]
-        .map((post) => {
+    return postStore.ids
+        .map((id) => {
+            const post = postStore.all.get(id);
+            if (!post)
+                throw Error(
+                    `Post with id of ${id} was exprected but not found`
+                );
             return {
                 ...post,
                 created: DateTime.fromISO(post.created),
@@ -39,8 +44,6 @@ function selectPeriod(period: Period) {
 </script>
 
 <template>
-    {{ postStore.foo }}
-    <button @click="postStore.updateFoo('bar')">update</button>
     <nav class="panel">
         <div class="panel-tabs">
             <a
