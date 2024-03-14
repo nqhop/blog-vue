@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const periods = ["Today", "This Week", "This Month"];
-const selectedPeriod = ref(periods[0]);
+const periods = ["Today", "This Week", "This Month"] as const;
+type Period = (typeof periods)[number];
 
-function selectPeriod(period: string) {
+const selectedPeriod = ref<Period>(periods[0]);
+
+function selectPeriod(period: Period) {
     selectedPeriod.value = period;
 }
 </script>
@@ -17,7 +19,7 @@ function selectPeriod(period: string) {
                 v-for="period in periods"
                 :key="period"
                 v-on:click="selectPeriod(period)"
-                :class="{'is-active' :  period === selectedPeriod}"
+                :class="{ 'is-active': period === selectedPeriod }"
             >
                 {{ period }}</a
             >
