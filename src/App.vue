@@ -3,9 +3,13 @@ import Timeline from "./components/Timeline.vue";
 </script>
 
 <template>
-    <Timeline/>
+    <div class="section">
+        <div class="container">
+            <Timeline />
+        </div>
+    </div>
 </template>
 
-<style scoped>
-
+<style>
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css";
 </style>
