@@ -5,6 +5,7 @@ import { marked } from "marked";
 import highlightjs from "highlight.js";
 import { debounce } from "lodash";
 import { usePosts } from "../stores/posts";
+import { router } from "../router";
 
 const props = defineProps<{
     post: TimelinePost;
@@ -66,14 +67,15 @@ onMounted(() => {
     // console.log(contenteditable.value?.innerText);
 });
 
-function handleClick() {
+async function handleClick() {
     const newPost: TimelinePost = {
         ...props.post,
         title: title.value,
         markdown: content.value,
         html: html.value
     }
-    posts.createPost(newPost);
+    await posts.createPost(newPost);
+    router.push("/")
 }
 </script>
 
